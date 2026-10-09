@@ -58,7 +58,8 @@ titulo_sem_numero = ParagraphStyle("titulo_sem_numero", parent=secao1, alignment
 legenda = ParagraphStyle("legenda", fontName="Arial", fontSize=10, leading=12, alignment=TA_CENTER,
                          spaceBefore=12, spaceAfter=4)
 fonte_fig = ParagraphStyle("fonte_fig", parent=legenda, spaceBefore=4, spaceAfter=12)
-natureza = ParagraphStyle("natureza", fontName="Arial", fontSize=10, leading=12, alignment=TA_JUSTIFY,
+# Alinhada à esquerda para não abrir espaços grandes entre as palavras na coluna estreita
+natureza = ParagraphStyle("natureza", fontName="Arial", fontSize=10, leading=12, alignment=TA_LEFT,
                           leftIndent=8 * cm)
 referencia = ParagraphStyle("referencia", fontName="Arial", fontSize=12, leading=14, alignment=TA_LEFT,
                             spaceAfter=14)
@@ -82,7 +83,7 @@ def centralizado(c, texto_, y, estilo):
 
 
 def autores_html():
-    return "<br/>".join(nome.upper() for _, nome in cfg.INTEGRANTES)
+    return "<br/>".join(f"{rm} – {nome.upper()}" for rm, nome in cfg.INTEGRANTES)
 
 
 def desenhar_capa(c, _doc):
@@ -96,15 +97,15 @@ def desenhar_capa(c, _doc):
 
 
 def desenhar_folha_rosto(c, _doc):
+    # Os integrantes (com RM) aparecem só na capa, por pedido do grupo
     c.saveState()
-    topo = ALTURA - M_SUP
-    centralizado(c, autores_html(), topo, centro)
-    y_titulo = ALTURA / 2 + 4 * cm
+    y_titulo = ALTURA / 2 + 3 * cm
     h = centralizado(c, f"<b>{TITULO}:</b><br/>{SUBTITULO}", y_titulo, centro)
-    nota = (f"Trabalho apresentado à disciplina de {cfg.DISCIPLINA} do curso de Tecnologia em "
+    nota = (f"Trabalho apresentado à disciplina {cfg.DISCIPLINA}, do curso de Tecnologia em "
             f"Análise e Desenvolvimento de Sistemas da Faculdade de Informática e Administração "
-            f"Paulista – FIAP, como requisito parcial para avaliação do {cfg.CHECKPOINT}."
-            f"<br/><br/>Orientador: {cfg.PROFESSOR}.")
+            f"Paulista (FIAP), como requisito parcial para a avaliação do "
+            f"{cfg.CHECKPOINT.replace(' ', '&nbsp;')}."
+            f"<br/><br/>Orientador: {cfg.PROFESSOR}")
     centralizado(c, nota, y_titulo - h - 2 * cm, natureza)
     centralizado(c, f"{cfg.CIDADE}<br/>{cfg.ANO}", M_INF + 1.6 * cm, centro)
     c.restoreState()
