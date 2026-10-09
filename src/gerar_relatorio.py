@@ -58,9 +58,8 @@ titulo_sem_numero = ParagraphStyle("titulo_sem_numero", parent=secao1, alignment
 legenda = ParagraphStyle("legenda", fontName="Arial", fontSize=10, leading=12, alignment=TA_CENTER,
                          spaceBefore=12, spaceAfter=4)
 fonte_fig = ParagraphStyle("fonte_fig", parent=legenda, spaceBefore=4, spaceAfter=12)
-# Alinhada à esquerda para não abrir espaços grandes entre as palavras na coluna estreita
-natureza = ParagraphStyle("natureza", fontName="Arial", fontSize=10, leading=12, alignment=TA_LEFT,
-                          leftIndent=8 * cm)
+# Centralizada na folha, por pedido do grupo
+natureza = ParagraphStyle("natureza", fontName="Arial", fontSize=10, leading=12, alignment=TA_CENTER)
 referencia = ParagraphStyle("referencia", fontName="Arial", fontSize=12, leading=14, alignment=TA_LEFT,
                             spaceAfter=14)
 
