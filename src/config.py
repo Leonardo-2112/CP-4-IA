@@ -1,15 +1,14 @@
-"""Dados do grupo usados na capa, na folha de rosto e no e-mail de entrega.
+"""Dados do grupo usados na capa, na folha de rosto e no e-mail de entrega."""
 
-Preencha antes de gerar o PDF final (python src/gerar_relatorio.py).
-"""
-
-TURMA = "1TDSXX"
+TURMA = "1TDSPV"
 
 # (RM, nome completo) de cada integrante, na ordem em que devem aparecer
 INTEGRANTES = [
-    ("RM00000", "NOME COMPLETO DO INTEGRANTE 1"),
-    ("RM00000", "NOME COMPLETO DO INTEGRANTE 2"),
-    ("RM00000", "NOME COMPLETO DO INTEGRANTE 3"),
+    ("RM573982", "Leonardo Afonço Sousa"),
+    ("RM569023", "Vitor Gonçalves de Souza"),
+    ("RM569259", "Syang Cristina Gomes Souza"),
+    ("RM572364", "João Machado Nascimento"),
+    ("RM573559", "Matheus Jones Sousa de Freitas"),
 ]
 
 INSTITUICAO = "FACULDADE DE INFORMÁTICA E ADMINISTRAÇÃO PAULISTA – FIAP"

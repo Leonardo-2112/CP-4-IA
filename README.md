@@ -8,7 +8,7 @@ Gráficos e gerenciamento de dados, classificação com dataviz, usando a base n
 |---|---|
 | `dados/base_saude_normalizada.csv` | Base do Checkpoint 01 (1000 pacientes, `;` como separador, `,` como decimal) |
 | `dados/dicionario_de_dados.pdf` | Dicionário de dados da base |
-| `src/config.py` | **Turma, RMs e nomes do grupo** (preencher antes de gerar a versão final) |
+| `src/config.py` | Turma, RMs e nomes do grupo |
 | `src/gerar_graficos.py` | Gera as 5 figuras em `graficos/` |
 | `src/gerar_relatorio.py` | Monta o PDF no padrão ABNT NBR 14724 e o texto do e-mail |
 | `entrega/Checkpoint02_<TURMA>.pdf` | **Arquivo único a ser enviado** |
@@ -45,7 +45,7 @@ A fonte usada é a Liberation Sans, métrica-compatível com a Arial (`/usr/shar
 - [x] ABNT NBR 14724: capa, folha de rosto, sumário, A4, margens 3/2 cm, fonte 12, espaçamento 1,5,
       numeração no canto superior direito, figuras com identificação acima e fonte abaixo, referências
 - [x] Entrega em um único arquivo PDF
-- [ ] Preencher turma, RMs e nomes em `src/config.py` e gerar novamente
-- [ ] Enviar para profalfonso.rodriguez@fiap.com.br com assunto `Checkpoint 02 - <TURMA>` e
+- [x] Turma, RMs e nomes preenchidos em `src/config.py`
+- [ ] Enviar para profalfonso.rodriguez@fiap.com.br com assunto `Checkpoint 02 - 1TDSPV` e
       RM + nome dos integrantes, um abaixo do outro, no corpo do e-mail
 - [ ] Prazo: 15/10/2026 (com atraso, até 19/10/2026, perde 2,5 pontos)
