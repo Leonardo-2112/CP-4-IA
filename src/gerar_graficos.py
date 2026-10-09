@@ -19,6 +19,7 @@ SAIDA = RAIZ / "graficos"
 
 # Paleta (categórica validada para daltonismo + tinta neutra para textos e eixos)
 AZUL, LARANJA = "#2a78d6", "#eb6834"
+VIOLETA, AQUA = "#4a3aa7", "#1baf7a"  # sexo (figura 2), cores distintas de diagnóstico/tabagismo
 TINTA, TINTA_2, MUDO = "#0b0b0b", "#52514e", "#898781"
 GRADE, EIXO = "#e1e0d9", "#c3c2b7"
 
@@ -52,6 +53,7 @@ def carregar() -> pd.DataFrame:
     # Decodifica os campos conforme o dicionário de dados do Checkpoint 01
     df["Diagnostico"] = df["Diabetes"].map({0: "Sem diabetes", 1: "Com diabetes"})
     df["Fumante"] = df["Smoker"].map({0: "Não fumantes", 1: "Fumantes"})
+    df["Sexo"] = df["Gender"].map({0: "Feminino", 1: "Masculino"})
     df["Exercicio"] = df["ExerciseFrequency"].map({0.0: "Nunca", 0.5: "Às vezes", 1.0: "Frequentemente"})
     df["IMC"] = df["Weight_kg"] / (df["Height_cm"] / 100) ** 2
     df["FaixaEtaria"] = pd.cut(
@@ -66,43 +68,57 @@ def pct(valor: float) -> str:
 
 
 def figura1(df):
-    """Colunas: taxa de diabetes por frequência de exercício."""
+    """Colunas agrupadas: taxa de diabetes por frequência de exercício e tabagismo."""
     ordem = ["Nunca", "Às vezes", "Frequentemente"]
-    g = df.groupby("Exercicio")["Diabetes"].agg(["mean", "size"]).loc[ordem]
-    taxa = g["mean"] * 100
+    t = df.groupby(["Exercicio", "Fumante"])["Diabetes"].mean().unstack().loc[ordem] * 100
+    geral = df.groupby("Exercicio")["Diabetes"].mean().loc[ordem] * 100
+    n = df.groupby("Exercicio").size().loc[ordem]
 
     fig, ax = plt.subplots(figsize=(8, 4.8))
-    rotulos = [f"{n}\n(n = {int(t)})" for n, t in zip(ordem, g["size"])]
-    barras = ax.bar(rotulos, taxa, width=0.55, color=AZUL, label="Pacientes com diabetes (%)", zorder=2)
-    for b, v in zip(barras, taxa):
-        ax.text(b.get_x() + b.get_width() / 2, v + 0.8, pct(v), ha="center", va="bottom",
-                fontsize=11, fontweight="bold", color=TINTA)
-    ax.set_title("Taxa de diabetes por frequência de exercício físico")
+    x = np.arange(len(ordem))
+    largura = 0.36
+    for desloc, grupo, cor in [(-largura / 2, "Não fumantes", AZUL), (largura / 2, "Fumantes", LARANJA)]:
+        # 0.02 de folga entre as barras vizinhas
+        barras = ax.bar(x + desloc, t[grupo], width=largura - 0.02, color=cor, label=grupo, zorder=2)
+        for bb, v in zip(barras, t[grupo]):
+            ax.text(bb.get_x() + bb.get_width() / 2, v + 0.8, pct(v), ha="center", va="bottom",
+                    fontsize=10, fontweight="bold", color=TINTA)
+    # A taxa geral de cada nível vai no rótulo do eixo para não poluir as barras
+    ax.set_xticks(x, [f"{o} (n = {int(k)})\ngeral: {pct(g)}" for o, k, g in zip(ordem, n, geral)])
+    ax.set_title("Taxa de diabetes por frequência de exercício físico e tabagismo")
     ax.set_xlabel("Frequência de exercício físico")
     ax.set_ylabel("Pacientes com diabetes (%)")
-    ax.set_ylim(0, 45)
+    ax.set_ylim(0, 55)
     ax.grid(axis="x", visible=False)
-    ax.legend(loc="upper right")
+    ax.legend(title="Grupo", loc="upper right", title_fontsize=10)
     fig.savefig(SAIDA / "figura1.png")
     plt.close(fig)
 
 
 def figura2(df):
-    """Linhas: taxa de diabetes por faixa etária, fumantes x não fumantes."""
-    t = df.groupby(["FaixaEtaria", "Fumante"], observed=True)["Diabetes"].mean().unstack() * 100
+    """Linhas: taxa de diabetes por faixa etária, geral e por sexo."""
+    geral = df.groupby("FaixaEtaria", observed=True)["Diabetes"].mean() * 100
+    sexo = df.groupby(["FaixaEtaria", "Sexo"], observed=True)["Diabetes"].mean().unstack() * 100
+    rotulos = geral.index.astype(str)
 
     fig, ax = plt.subplots(figsize=(8, 4.8))
-    for grupo, cor, marcador in [("Não fumantes", AZUL, "o"), ("Fumantes", LARANJA, "s")]:
-        ax.plot(t.index.astype(str), t[grupo], color=cor, linewidth=2.2, marker=marcador,
-                markersize=8, markeredgecolor="white", markeredgewidth=1.5, label=grupo, zorder=3)
-        ultimo = t[grupo].iloc[-1]
-        ax.annotate(pct(ultimo), (len(t) - 1, ultimo), xytext=(10, 0), textcoords="offset points",
-                    va="center", fontsize=10, color=TINTA)
-    ax.set_title("Taxa de diabetes por faixa etária: fumantes x não fumantes")
+    for grupo, cor, marcador in [("Feminino", VIOLETA, "s"), ("Masculino", AQUA, "^")]:
+        ax.plot(rotulos, sexo[grupo], color=cor, linewidth=2, linestyle="--", marker=marcador,
+                markersize=8, markeredgecolor="white", markeredgewidth=1.2, label=grupo, zorder=3)
+    ax.plot(rotulos, geral, color=TINTA, linewidth=2.6, marker="o", markersize=8,
+            markeredgecolor="white", markeredgewidth=1.5, label="Geral", zorder=4)
+    # Rótulos só nas pontas das linhas, para não encobrir os pontos
+    ax.annotate(pct(geral.iloc[0]), (0, geral.iloc[0]), xytext=(-10, 0), textcoords="offset points",
+                ha="right", va="center", fontsize=9.5, fontweight="bold", color=TINTA)
+    for serie, negrito in [(sexo["Feminino"], False), (sexo["Masculino"], False), (geral, True)]:
+        ultimo = serie.iloc[-1]
+        ax.annotate(pct(ultimo), (len(geral) - 1, ultimo), xytext=(10, 0), textcoords="offset points",
+                    va="center", fontsize=9.5, color=TINTA, fontweight="bold" if negrito else "normal")
+    ax.set_title("Taxa de diabetes por faixa etária: geral e por sexo")
     ax.set_xlabel("Faixa etária (anos)")
     ax.set_ylabel("Pacientes com diabetes (%)")
-    ax.set_ylim(0, max(70, t.max().max() + 8))
-    ax.set_xlim(-0.3, len(t) - 0.4)
+    ax.set_ylim(0, 60)
+    ax.set_xlim(-0.75, len(geral) - 0.3)
     ax.legend(title="Grupo", loc="upper left", title_fontsize=10)
     fig.savefig(SAIDA / "figura2.png")
     plt.close(fig)
@@ -209,6 +225,9 @@ def figura5(df):
 
 def resumo(df):
     """Imprime os números citados nos textos do relatório."""
+    print((df.groupby(["Exercicio", "Fumante"])["Diabetes"].mean().unstack() * 100).round(1))
+    print((df.groupby(["FaixaEtaria", "Sexo"], observed=True)["Diabetes"].mean().unstack() * 100).round(1))
+    print("Sexo:", (df.groupby("Sexo")["Diabetes"].mean() * 100).round(1).to_dict())
     print("Exercício:", (df.groupby("Exercicio")["Diabetes"].mean() * 100).round(1).to_dict())
     print((df.groupby(["FaixaEtaria", "Fumante"], observed=True)["Diabetes"].mean().unstack() * 100).round(1))
     print(df.groupby(["FaixaEtaria", "Fumante"], observed=True).size().unstack())

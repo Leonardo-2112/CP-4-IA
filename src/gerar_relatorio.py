@@ -166,10 +166,11 @@ def conteudo():
         "responder, por meio de visualização de dados (<i>dataviz</i>), à seguinte pergunta central: "
         "quais características de saúde e de estilo de vida estão associadas ao diagnóstico de "
         "diabetes? Como o dicionário de dados indica a variável Diabetes como a variável-alvo sugerida "
-        "para modelos de classificação, os gráficos foram construídos para comparar o grupo de "
-        "pacientes com diabetes ao grupo sem a doença. Foram elaborados cinco gráficos de tipos "
-        "diferentes (colunas, linhas, caixa, dispersão e mapa de calor), cada um acompanhado de um "
-        "parágrafo que explica o que ele mostra.")]
+        "para modelos de classificação (diagnóstico presente em 26,2% dos 1.000 pacientes), os "
+        "gráficos foram "
+        "construídos para comparar o grupo de pacientes com diabetes ao grupo sem a doença. Foram "
+        "elaborados cinco gráficos de tipos diferentes (colunas agrupadas, linhas, caixa, dispersão e "
+        "mapa de calor), cada um acompanhado de um parágrafo que explica o que ele mostra.")]
 
     # 2 Base de dados e metodologia ----------------------------------------------
     s += [Spacer(1, 18), titulo("2 BASE DE DADOS E METODOLOGIA", 0)]
@@ -194,26 +195,31 @@ def conteudo():
     s += [PageBreak()]
     secoes = []
 
-    secoes.append([titulo("3 ANÁLISE DOS GRÁFICOS", 0), titulo("3.1 Frequência de exercício físico e diabetes", 1), par(
-        "A Figura 1 apresenta, em um gráfico de colunas, o percentual de pacientes com diabetes em "
-        "cada nível de frequência de exercício físico. A taxa diminui à medida que a prática de "
-        "atividade física aumenta: entre os pacientes que nunca se exercitam, 38,8% têm diabetes; "
-        "entre os que se exercitam às vezes, a taxa cai para 22,0%; e entre os que se exercitam "
-        "frequentemente, para 18,0%. Assim, o grupo sedentário apresenta uma taxa de diabetes mais "
-        "de duas vezes maior que a do grupo mais ativo, o que indica a frequência de exercício como "
-        "uma característica relevante para diferenciar os pacientes com e sem a doença."),
-        figura(1, "Taxa de diabetes por frequência de exercício físico", "figura1.png")])
+    secoes.append([titulo("3 ANÁLISE DOS GRÁFICOS", 0),
+                   titulo("3.1 Exercício físico, tabagismo e diabetes", 1), par(
+        "A Figura 1 apresenta, em um gráfico de colunas agrupadas, o percentual de pacientes com "
+        "diabetes em cada nível de frequência de exercício físico, separando não fumantes (azul) e "
+        "fumantes (laranja); a taxa geral de cada nível aparece abaixo do eixo. A taxa geral diminui "
+        "à medida que a prática de atividade física aumenta: 38,8% entre os que nunca se exercitam, "
+        "22,0% entre os que se exercitam às vezes e 18,0% entre os que se exercitam frequentemente. "
+        "Em todos os níveis, os fumantes têm percentual maior que os não fumantes, e entre os mais "
+        "ativos a taxa dos fumantes é quase o dobro (28,6% contra 14,8%). A combinação de sedentarismo e tabagismo "
+        "concentra o maior risco observado (46,1%), mais de três vezes a taxa dos não fumantes que "
+        "se exercitam com frequência, o que indica as duas variáveis como relevantes para "
+        "diferenciar os pacientes com e sem a doença."),
+        figura(1, "Taxa de diabetes por frequência de exercício físico e tabagismo", "figura1.png")])
 
-    secoes.append([titulo("3.2 Idade, tabagismo e diabetes", 1), par(
+    secoes.append([titulo("3.2 Idade, sexo e diabetes", 1), par(
         "A Figura 2 utiliza um gráfico de linhas para mostrar como a taxa de diabetes evolui ao "
-        "longo das faixas etárias, separando fumantes e não fumantes. Nos dois grupos a taxa cresce "
-        "com a idade: entre os não fumantes, passa de 9,8% na faixa de 18 a 29 anos para 39,2% na "
-        "faixa de 70 a 79 anos. A linha dos fumantes fica acima da linha dos não fumantes em todas as "
-        "faixas e chega a 59,0% entre os fumantes de 70 a 79 anos; no total, 36,5% dos fumantes têm "
-        "diabetes, contra 23,3% dos não fumantes. As oscilações da linha laranja se devem ao menor "
-        "número de fumantes em cada faixa (entre 28 e 51 pessoas), mas a tendência indica que idade "
-        "e tabagismo somam risco."),
-        figura(2, "Taxa de diabetes por faixa etária entre fumantes e não fumantes", "figura2.png")])
+        "longo das faixas etárias. A linha preta, que representa todos os pacientes, cresce de forma "
+        "praticamente contínua, de 13,6% na faixa de 18 a 29 anos para 44,0% na faixa de 70 a 79 "
+        "anos, o que evidencia a idade como fator associado ao diagnóstico (r = 0,25). As linhas "
+        "tracejadas separam os sexos: no conjunto, os homens têm taxa maior (31,2%) que as mulheres "
+        "(21,3%), e na faixa de 70 a 79 anos chegam a 49,4%, contra 37,1% das mulheres. As "
+        "oscilações das linhas por sexo, como a queda entre as mulheres de 60 a 69 anos, decorrem "
+        "do menor número de pacientes em cada faixa (entre 67 e 109 pessoas), mas a tendência de "
+        "alta com a idade se mantém nos dois grupos."),
+        figura(2, "Taxa de diabetes por faixa etária, geral e por sexo", "figura2.png")])
 
     secoes.append([titulo("3.3 Índice de Massa Corporal e diabetes", 1), par(
         "A Figura 3 é um gráfico de caixa (<i>boxplot</i>), que resume a distribuição do IMC em cada "
@@ -223,16 +229,18 @@ def conteudo():
         "kg/m², contra 24,7 kg/m² no grupo sem diabetes, e os 50% centrais vão de 24,4 a 29,3 kg/m², "
         "contra 22,2 a 27,6 kg/m². A linha tracejada marca o IMC 25, a partir do qual a Organização "
         "Mundial da Saúde classifica o sobrepeso (WORLD HEALTH ORGANIZATION, 2000); 64,1% dos "
-        "pacientes com diabetes estão acima desse limite, contra 47,6% dos pacientes sem a doença, o "
-        "que mostra a associação entre excesso de peso e diabetes."),
+        "pacientes com diabetes estão acima desse limite, contra 47,6% dos pacientes sem a doença. "
+        "Ainda assim, as caixas se sobrepõem bastante, o que indica que o IMC contribui para o risco, "
+        "mas não o determina isoladamente (r = 0,21)."),
         figura(3, "Distribuição do IMC por diagnóstico de diabetes", "figura3.png")])
 
     secoes.append([titulo("3.4 Idade e pressão arterial", 1), par(
         "A Figura 4 é um gráfico de dispersão em que cada ponto representa um paciente, posicionado "
         "pela idade (eixo horizontal) e pela pressão arterial sistólica (eixo vertical); os círculos "
         "azuis são pacientes sem diabetes e os triângulos laranja, pacientes com diabetes. A linha "
-        "tracejada mostra a tendência geral: a pressão sobe, em média, de cerca de 110 mmHg aos 18 "
-        "anos para cerca de 130 mmHg aos 79 anos, com correlação positiva moderada (r = 0,54). Os "
+        "tracejada mostra a tendência geral: a pressão sobe cerca de 3,3 mmHg a cada dez anos de "
+        "vida, de aproximadamente 110 mmHg aos 18 anos para 130 mmHg aos 79 anos, com correlação "
+        "positiva moderada (r = 0,54), a mais forte entre as variáveis da base. Os "
         "triângulos se concentram na parte direita e superior do gráfico, o que confirma que os "
         "pacientes com diabetes são, em média, mais velhos (55,1 anos contra 45,0) e têm pressão "
         "arterial mais alta (123,5 mmHg contra 118,2 mmHg)."),
@@ -260,12 +268,14 @@ def conteudo():
     s += [par(
         "Os cinco gráficos mostram um perfil consistente: os pacientes com diabetes da base são, em "
         "média, mais velhos, mais pesados, mais sedentários, com pressão arterial e colesterol mais "
-        "altos e com maior proporção de fumantes. Por outro lado, a renda não apresentou relação com "
-        "o diagnóstico. Como cada fator, isoladamente, tem associação apenas fraca ou moderada com a "
-        "doença, a visualização indica que um modelo de classificação deve considerar as variáveis "
-        "em conjunto, priorizando idade, peso ou IMC, exercício físico, pressão arterial, colesterol e "
-        "tabagismo. Por se tratar de uma base sintética, as conclusões têm valor didático e não "
-        "devem ser generalizadas para a população real.")]
+        "altos, e o diagnóstico é mais frequente entre fumantes e entre homens. Por outro lado, a "
+        "renda não apresentou relação com o diagnóstico. Como cada fator, isoladamente, tem "
+        "associação apenas fraca ou moderada com a doença, a visualização indica que um modelo de "
+        "classificação deve considerar as variáveis em conjunto, priorizando idade, peso ou IMC, "
+        "exercício físico, tabagismo, pressão arterial e colesterol; como próxima etapa, recomenda-se "
+        "treinar esse modelo com as variáveis normalizadas no Checkpoint 01. Por se tratar de uma "
+        "base sintética e de correlações, os resultados têm caráter exploratório e didático, não "
+        "indicam relação de causa e efeito e não devem ser generalizados para a população real.")]
 
     # Referências ----------------------------------------------------------------
     s += [PageBreak(), titulo("REFERÊNCIAS", 0)]
@@ -277,9 +287,13 @@ def conteudo():
         "trabalhos acadêmicos: apresentação. Rio de Janeiro: ABNT, 2011.",
         "HUNTER, J. D. Matplotlib: a 2D graphics environment. <b>Computing in Science &amp; "
         "Engineering</b>, v. 9, n. 3, p. 90-95, 2007.",
+        "BASE DE SAÚDE NORMALIZADA. <b>Dicionário de dados</b>: perfil de saúde e estilo de vida. "
+        "Base sintética, 1.000 registros. São Paulo: FIAP, 2026.",
         "MCKINNEY, W. Data structures for statistical computing in Python. <i>In</i>: PYTHON IN "
         "SCIENCE CONFERENCE, 9., 2010, Austin. <b>Proceedings</b> [...]. Austin: SciPy, 2010. "
         "p. 56-61.",
+        "RODRIGUEZ, A. <b>AI &amp; Chatbot</b>: Checkpoint 02: gráficos e gerenciamento de dados, "
+        "classificação com dataviz. São Paulo: FIAP, 2026. Material didático.",
         "WORLD HEALTH ORGANIZATION. <b>Obesity</b>: preventing and managing the global epidemic. "
         "Geneva: WHO, 2000. (WHO Technical Report Series, 894).",
     ]

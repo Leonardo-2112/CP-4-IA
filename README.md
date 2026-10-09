@@ -29,8 +29,8 @@ A fonte usada é a Liberation Sans, métrica-compatível com a Arial (`/usr/shar
 
 | Figura | Tipo | Pergunta respondida |
 |---|---|---|
-| 1 | Colunas | A frequência de exercício físico muda a taxa de diabetes? |
-| 2 | Linhas | Como a taxa de diabetes evolui com a idade entre fumantes e não fumantes? |
+| 1 | Colunas agrupadas | Exercício físico e tabagismo mudam a taxa de diabetes? |
+| 2 | Linhas | Como a taxa de diabetes evolui com a idade, no geral e por sexo? |
 | 3 | Caixa (boxplot) | Pacientes com diabetes têm IMC maior? |
 | 4 | Dispersão | Qual a relação entre idade, pressão arterial e diabetes? |
 | 5 | Mapa de calor | Quais variáveis se correlacionam com o diagnóstico? |
